@@ -88,30 +88,24 @@ In XGBoost with Decision Stump as weak learner, each feature value contributes t
 3. **Stump Prediction**:
 
    - For a feature $x$ and a threshold $\theta$, the Decision Stump makes predictions by assigning a constant value to samples on each side of the threshold: 
-     $$
-     h_t(x) = \begin{cases} 
+     $$h_t(x) = \begin{cases} 
            y_{\text{left}} & \text{if } x_i < \theta \\
            y_{\text{right}} & \text{otherwise}
-        \end{cases}
-     $$
+        \end{cases}$$
 
    - Here, $y_{\text{left}}$ and $y_{\text{right}}$ are the average residuals for samples on each side of the threshold, chosen to minimize the overall error in predicting residuals.
 
 4. **Updating the Overall Prediction**:
 
    - The model’s prediction is updated by adding a scaled version of the Decision Stump’s prediction. The learning rate $\eta$ controls how much each stump contributes to the final model: 
-     $$
-     F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)
-     $$
+     $$F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)$$
 
    - This update means each Decision Stump contributes only a small correction to the existing prediction, allowing the model to make gradual adjustments rather than large changes.
 
 5. **Final Prediction**:
 
    - After $T$ boosting rounds, the final prediction for a data point $x$​​ is the sum of all weak learners' contributions: 
-     $$
-     F(x) = \sum_{t=1}^T \eta h_t(x)
-     $$
+     $$F(x) = \sum_{t=1}^T \eta h_t(x)$$
 
    - Each Decision Stump captures a simple pattern based on one feature and threshold, and by combining multiple stumps, XGBoost can approximate complex relationships in the data.
 
@@ -123,27 +117,21 @@ The loss is used to measure the error between predicted and actual values. XGBoo
     For the regression task, we can use Mean Squared Error(MSE) or Mean Absolute Error (MAE)
 
     Mean Squared Error(MSE):
-    $$
-        L(F^{\mathbf{(t)}}) = \frac{1}{n} \sum_{i=1}^{n} (y_i - F^{\mathbf{(t)}}(\mathbf{x}_i))^2
-    $$
+
+    $$L(F^{\mathbf{(t)}}) = \frac{1}{n} \sum_{i=1}^{n} (y_i - F^{\mathbf{(t)}}(\mathbf{x}_i))^2$$
 
     Mean Absolute Error (MAE):
-    $$
-        L(F^{\mathbf{(t)}}) = \frac{1}{n} \sum_{i=1}^{n} |y_i - F^{\mathbf{(t)}}(\mathbf{x}_i)|
-    $$
-    
+
+    $$L(F^{\mathbf{(t)}}) = \frac{1}{n} \sum_{i=1}^{n} |y_i - F^{\mathbf{(t)}}(\mathbf{x}_i)|$$
+
     For the binary classification task, we can use Binary Cross Entropy Loss
     Binary Cross Entropy Loss:
 
-    $$
-    L_S(F^{\mathbf{(t)}}) = -\frac{1}{n} \sum_{i=1}^{n}\left[ y \cdot \log(\hat{y}) + (1 - y) \cdot \log(1 - F^{\mathbf{(t)}}(\mathbf{x}_i)) \right]
-    $$
+    $$L_S(F^{\mathbf{(t)}}) = -\frac{1}{n} \sum_{i=1}^{n}\left[ y \cdot \log(\hat{y}) + (1 - y) \cdot \log(1 - F^{\mathbf{(t)}}(\mathbf{x}_i)) \right]$$
 
     For the multiclass classification task, we can use Cross Entropy Loss
     Cross Entropy Loss:
-    $$
-        L_S(F^{\mathbf{(t)}}) = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{k} \mathbb{1}[y_i = j] \log F^{\mathbf{(t)}}(\mathbf{x}_i)_j
-    $$
+    $$L_S(F^{\mathbf{(t)}}) = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{k} \mathbb{1}[y_i = j] \log F^{\mathbf{(t)}}(\mathbf{x}_i)_j$$
 
     where:
     
@@ -165,9 +153,7 @@ In this configuration, XGBoost uses a decision stump as the weak learner. The op
 
 The objective function consists of the loss and regularization terms:
 
-$$
-\text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)
-$$
+$$\text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
 
 where $L(y_i, \hat{y}_i)$ is the loss function, typically squared error or logistic loss, measuring the difference between the true values $y_i$ and predictions $\hat{y}_i$. $\Omega(f_k)$ is the regularization term to control model complexity.
 
@@ -262,22 +248,25 @@ Regularization parameters $\lambda$ and $\gamma$
 
 **Initialize**: Set initial prediction $F^{(0)}(x) = 0$
 
-For $t = 1, \ldots, R$
+For each iteration t = 1, ..., R:
 
-    Compute gradients $g_i$ and Hessians $h_i$ for each sample $i = 1, \ldots, m$
+1. Compute gradients \(g_i\) and Hessians \(h_i\) for each sample \(i = 1, \ldots, m\)
 
-    For each feature and threshold $\theta$:
-        a. Split the data into left and right groups based on $\theta$
-        b. Compute gain for this split based on gradients and Hessians
-        
-    Select feature and threshold with the highest gain
-    
-    Fit decision stump $h_t(x)$ on the selected split:
-        a. Set constant values $y_{\text{left}}$ and $y_{\text{right}}$ for the left and right groups
-        
-    Compute optimal weights $w_j$ for each leaf node (left and right groups)
-    
-    Update model prediction:
-        $F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)$
+2. For each feature and threshold \( \theta \):
+   a. Split the data into left and right groups based on \( \theta \)
+   b. Compute gain for this split based on gradients and Hessians
+
+3. Select feature and threshold with the highest gain
+
+4. Fit decision stump \( h_t(x) \) on the selected split:
+   a. Set constant values \( y_{\text{left}} \) and \( y_{\text{right}} \) for the left and right groups
+
+5. Compute optimal weights \( w_j \) for each leaf node (left and right groups)
+
+6. Update model prediction:
+   \[
+   F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)
+   \]
+
 
 **Output**: Final model prediction $F(x) = F^{(R)}(x)$
