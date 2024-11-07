@@ -250,10 +250,12 @@ Regularization parameters $\lambda$ and $\gamma$
 
 For each iteration t = 1, ..., R:
 
-1. Compute gradients $ g_i$  and Hessians $ h_i $ for each sample $i = 1, \ldots, m$
+1. Compute gradients $ g_i $  and Hessians $ h_i $ for each sample $i = 1, \ldots, m$
 
 2. For each feature and threshold $ \theta $:
+
    a. Split the data into left and right groups based on $ \theta $
+
    b. Compute gain for this split based on gradients and Hessians
 
 3. Select feature and threshold with the highest gain
@@ -265,6 +267,5 @@ For each iteration t = 1, ..., R:
 
 6. Update model prediction:
    $$F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)$$
-
 
 **Output**: Final model prediction $F(x) = F^{(R)}(x)$
