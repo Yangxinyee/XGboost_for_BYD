@@ -14,9 +14,9 @@ XGBoost, or Extreme Gradient Boosting, is an efficient, scalable machine learnin
 3. **Gradient Boosting with Regularization**:
    
    - XGBoost includes regularization terms in the objective function to control overfitting:
-     $
-     \text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)
-     $
+
+     $\text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}\_i) + \sum_{k=1}^{K} \Omega(f_k)$
+     
      where $L(y_i, \hat{y}_i)$ is the loss function, and $\Omega(f_k)$ is the regularization term for tree $f_k$.
    
 4. **Shrinking (Learning Rate)**:
@@ -88,10 +88,10 @@ In XGBoost with Decision Stump as weak learner, each feature value contributes t
 3. **Stump Prediction**:
 
    - For a feature $x$ and a threshold $\theta$, the Decision Stump makes predictions by assigning a constant value to samples on each side of the threshold: 
-     $h_t(x) = \begin{cases} 
-           y_{\text{left}} & \text{if } x_i < \theta \\
-           y_{\text{right}} & \text{otherwise}
-        \end{cases}$
+ $h_t(x) = \begin{cases}
+y_\text{left}, & \text{if} x_i < \theta \\
+y_\text{right}, & \text{otherwise}
+\end{cases}$
 
    - Here, $y_{\text{left}}$ and $y_{\text{right}}$ are the average residuals for samples on each side of the threshold, chosen to minimize the overall error in predicting residuals.
 
@@ -153,7 +153,7 @@ In this configuration, XGBoost uses a decision stump as the weak learner. The op
 
 The objective function consists of the loss and regularization terms:
 
-$$\text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)$$
+$$\text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}\_i) + \sum_{k=1}^{K} \Omega(f_k)$$
 
 where $L(y_i, \hat{y}_i)$ is the loss function, typically squared error or logistic loss, measuring the difference between the true values $y_i$ and predictions $\hat{y}_i$. $\Omega(f_k)$ is the regularization term to control model complexity.
 
@@ -250,20 +250,20 @@ Regularization parameters $\lambda$ and $\gamma$
 
 For each iteration t = 1, ..., R:
 
-1. Compute gradients $ g_i $  and Hessians $ h_i $ for each sample $i = 1, \ldots, m$
+1. Compute gradients $g_i$ and Hessians $h_i$ for each sample $i = 1, \ldots, m$
 
-2. For each feature and threshold $ \theta $:
+2. For each feature and threshold $\theta$:
 
-   a. Split the data into left and right groups based on $ \theta $
+   a. Split the data into left and right groups based on $\theta$
 
    b. Compute gain for this split based on gradients and Hessians
 
 3. Select feature and threshold with the highest gain
 
-4. Fit decision stump $ h_t(x) $ on the selected split:
-   a. Set constant values $ y_{\text{left}} $ and $ y_{\text{right}} $ for the left and right groups
+4. Fit decision stump $h_t(x)$ on the selected split:
+   a. Set constant values $y_{\text{left}}$ and $y_{\text{right}}$ for the left and right groups
 
-5. Compute optimal weights $ w_j $ for each leaf node (left and right groups)
+5. Compute optimal weights $w_j$ for each leaf node (left and right groups)
 
 6. Update model prediction:
    $$F^{(t)}(x) = F^{(t-1)}(x) + \eta h_t(x)$$
