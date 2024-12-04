@@ -14,9 +14,9 @@ XGBoost, or Extreme Gradient Boosting, is an efficient, scalable machine learnin
 3. **Gradient Boosting with Regularization**:
    
    - XGBoost includes regularization terms in the objective function to control overfitting:
-     $$
+     $
      \text{Objective} = \sum_{i=1}^{n} L(y_i, \hat{y}_i) + \sum_{k=1}^{K} \Omega(f_k)
-     $$
+     $
      where $L(y_i, \hat{y}_i)$ is the loss function, and $\Omega(f_k)$ is the regularization term for tree $f_k$.
    
 4. **Shrinking (Learning Rate)**:
@@ -88,10 +88,10 @@ In XGBoost with Decision Stump as weak learner, each feature value contributes t
 3. **Stump Prediction**:
 
    - For a feature $x$ and a threshold $\theta$, the Decision Stump makes predictions by assigning a constant value to samples on each side of the threshold: 
-     $$h_t(x) = \begin{cases} 
+     $h_t(x) = \begin{cases} 
            y_{\text{left}} & \text{if } x_i < \theta \\
            y_{\text{right}} & \text{otherwise}
-        \end{cases}$$
+        \end{cases}$
 
    - Here, $y_{\text{left}}$ and $y_{\text{right}}$ are the average residuals for samples on each side of the threshold, chosen to minimize the overall error in predicting residuals.
 
