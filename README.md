@@ -8,7 +8,7 @@ XGBoost, or Extreme Gradient Boosting, is an efficient, scalable machine learnin
    - Starts with an initial prediction (average value for regression or a default probability for classification).
 
 2. **Iterative Model Training**:
-   - In each step, a new weak learner (we are using decision stump) is trained to minimize residual errors from previous models. 
+   - In each step, a new weak learner (we are using decision tree) is trained to minimize residual errors from previous models. 
    - The weak learner is trained on a modified dataset where the target is now the residual error from the last iteration.
 
 3. **Gradient Boosting with Regularization**:
@@ -85,13 +85,17 @@ In XGBoost with Decision Stump as weak learner, each feature value contributes t
    - In each boosting round $t$, a new Decision Stump $h_t(x)$ is trained to predict the residuals (the difference between the true values $y_i$ and the current predictions $F^{(t-1)}(x_i)$.
    - Each Decision Stump splits the data based on a single feature and threshold, creating a simple rule: if the feature value $x_i$ is less than the threshold, the stump assigns one prediction; otherwise, it assigns a different prediction.
 
-3. **Stump Prediction**:
+3. **Tree Prediction**:
 
-   - For a feature $x$ and a threshold $\theta$, the Decision Stump makes predictions by assigning a constant value to samples on each side of the threshold: 
- $h_t(x) = \begin{cases}
-y_\text{left}, & \text{if} x_i < \theta \\
-y_\text{right}, & \text{otherwise}
-\end{cases}$
+   - For a feature $x$ and a threshold $\theta$, the Decision Tree makes predictions by assigning a constant value to samples on each side of the threshold:
+     
+$$
+h_t(x) = 
+\begin{cases} 
+      y_{\text{left}} & \text{if } x_i < \theta \\
+      y_{\text{right}} & \text{otherwise}
+\end{cases}
+$$
 
    - Here, $y_{\text{left}}$ and $y_{\text{right}}$ are the average residuals for samples on each side of the threshold, chosen to minimize the overall error in predicting residuals.
 
