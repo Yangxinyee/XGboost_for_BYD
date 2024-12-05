@@ -1,0 +1,14 @@
+name: BYD2060-XGBoost
+channels:
+- conda-forge
+- defaults
+dependencies:
+- python=3.12.5
+- matplotlib = 3.9.1
+- pandas=2.2.2
+- scikit-learn=1.5.1
+- numpy=2.0.1
+- XGBoost = 2.1.1
+- jupyter
+
+prefix: /conda
