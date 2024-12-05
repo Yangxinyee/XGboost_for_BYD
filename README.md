@@ -33,7 +33,7 @@ XGBoost, or Extreme Gradient Boosting, is an efficient, scalable machine learnin
 
 ## Representation and Optimizer of XGBoost
 
-Please refer to src/main.ipynb for detailed introduction to the representation and optimizer of XGboost.
+Please refer to src/XGBoost_Report.ipynb for detailed introduction to the representation and optimizer of XGboost.
 ## Prerequisites
 
 You can recreate the python environment using the `BYD2060-XGBoost.yml` conda environment file by running these two commands in the terminal:
